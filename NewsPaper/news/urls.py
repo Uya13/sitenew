@@ -13,5 +13,7 @@ urlpatterns = [
     path('articles/<int:pk>/update/', ArticleUpdate.as_view(), name = 'article_update'), 
     path('articles/<int:pk>/delete/', ArticleDelete.as_view(), name = 'article_delete'),
     path('login/', LoginView.as_view(template_name="login.html"), name='login'),
+    path('categories/<int:pk>', CategoryListView.as_view(), name='category_list'),
+    path('categories/<int:pk>/subscribe', subdcribe, name='subscribe'),
     # path('user_page/', IndexView.as_view(template_name="user_page.html"), name='user_page'),
 ]

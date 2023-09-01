@@ -29,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
+
+
 # Application definition
 
 AUTHENTICATION_BACKENDS = [
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'sign',
     'protect',
+    'django_apscheduler',
 ]
 
 LOGIN_URL = '/sign/login/'
@@ -61,6 +64,7 @@ LOGIN_REDIRECT_URL = '/news'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 SITE_ID = 1
+SITE_URL = 'http://127.0.0.1:8000/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -154,4 +158,30 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'sad.baka13'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_PASSWORD = 'ydffsgldhmgsquzt'  # пароль от почты
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'sad.baka13@yandex.ru'
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
+
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+# LOGIN_REDIRECT_URL = '/accounts/email/'
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False  # a personal preference. True by default. I don't want users to be interrupted by logging in
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7  # a personal preference. 3 by default
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True  # False by default
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True  # True by default
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+
+
