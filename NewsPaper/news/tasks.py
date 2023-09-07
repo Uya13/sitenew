@@ -8,6 +8,25 @@ from django.template.loader import render_to_string
 
 from .models import Post, Category
 
+# @shared_task
+# def mail_now():
+#     msg = EmailMultiAlternatives(
+#         subject='Новая статья уже на сайте!',
+#         body='',
+#         from_email=settings.DEFAULT_FROM_EMAIL,
+#         to=['dead_but_sad@mail.ru'],
+#     )
+#     html_content = render_to_string(
+#         'post_email.html',
+#         {
+#             'heading': '1',
+#             'article_text': '123',
+#             'link': f'666'
+#         }
+#     )
+#     msg.attach_alternative(html_content, 'text/html')
+#     msg.send()
+
 
 @shared_task
 def notify_about_new_post(pk):
