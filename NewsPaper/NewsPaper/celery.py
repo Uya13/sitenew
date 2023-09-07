@@ -9,11 +9,15 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'action_every_thursday_at_time': {
+    'action_every_monday_at_time': {
         'task': 'news.tasks.weekly_mailing',
-        'schedule': crontab(hour=15, minute=3, day_of_week=4),
+        'schedule': crontab(hour=5, minute=0, day_of_week=1),
     },
 }
+#5 утра из-за UTC (работает только с VPN)
+
+
+
 
 # app.conf.beat_schedule = {
 #     'action_every_thursday_12pm': {
