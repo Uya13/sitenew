@@ -167,9 +167,10 @@ EMAIL_HOST_USER = 'sad.baka13'  # ваше имя пользователя, на
 EMAIL_HOST_PASSWORD = 'ydffsgldhmgsquzt'  # пароль от почты
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 'sad.baka13@yandex.ru'
-SERVER_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_ADMIN = EMAIL_HOST_USER
 
+ADMINS = [('Dow', 'sad.baka13@yandex.ru'), ]
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 # LOGIN_REDIRECT_URL = '/accounts/email/'
@@ -190,3 +191,111 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_IMPORTS = ['news.tasks']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style' : '{',
+    'formatters': {
+        'default_form': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'default_form_warning': {
+            'format': '%(levelname)s %(asctime)s %(message)s %(pathname)s'
+        },
+        'default_form_error': {
+            'format': '%(levelname)s %(asctime)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'format_file': {
+            'format': '%(asctime)s %(module)s %(message)s'
+        },
+        'format_file_errors': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'format_file_security': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(module)s'
+        },
+        'format_file_mail': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        }
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default_form',
+            'filters': ['require_debug_true'],
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'format_file',
+            'filters': ['require_debug_false'],
+        },
+        'file_errors': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'format_file_errors'
+        },
+        'file_security': {
+            #'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'format_file_security'
+        },
+        'console_warning': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default_form_warning',
+            'filters': ['require_debug_true'],
+        },
+        'console_error': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default_form_error',
+            'filters': ['require_debug_true'],
+        },
+        'mail': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'format_file_mail',
+            'filters': ['require_debug_false'],
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'console_error', 'console_warning', 'file'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file_errors', 'mail'],
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['file_errors', 'mail'],
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['file_errors'],
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['file_errors'],
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['file_security'],
+            'propagate': True,
+        }
+    }
+}

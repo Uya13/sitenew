@@ -18,6 +18,7 @@ from django.conf import settings
 from .signals import send_notifications
 
 
+
 class PostsList(ListView):
     model = Post
     ordering = '-creation_datetime'
@@ -126,7 +127,6 @@ def subdcribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
     category.subscribers.add(user)
-
     message = 'Вы подписались на рассылку новостей'
     return render(request, 'subscribe.html', {'category': category, 'message': message})
 
